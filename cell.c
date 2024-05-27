@@ -7,7 +7,7 @@
 #include "cell.h"
 #include "ansicolors.h"
 
-static const int AMOUNT_OF_ITEMS = 3 ;
+//static const int AMOUNT_OF_ITEMS = 3 ;
 
 #define ANSI_SHOT ANSI_RED_BG
 #define ANSI_NORMAL ANSI_WHITE
@@ -19,30 +19,32 @@ cell_t cell_from_file(FILE* file)
     int k_status;
     unsigned int round;
 
-    /*
-     * COMPLETAR: Lectura de datos de la celda
-     *
-     */
+    int res = fscanf(file, " [%c %d %u]", &symbol, &k_status, &round);
+    if (res != 3) {
+        fprintf(stderr, "Error reading cell data.\n");
+        exit(EXIT_FAILURE);
+    }
+    /* COMPLETARDO: Lectura de datos de la celda */
     if (symbol == 'w') {
         cell.content = water;
     } else if (symbol=='s') {
         cell.content = ship;
     } else {
-        /*
-         * COMPLETAR
-         *
-         */
+    /* COMPLETARDO*/
+        fprintf(stderr, "Invalid cell content: %c\n", symbol);
+        exit(EXIT_FAILURE);
     }
-    if (k_status != untouched && k_status != hit) {
-        /*
-         * COMPLETAR
-         *
-         */
+    if (k_status == 0) {
+    /* COMPLETARDO*/
+        cell.status = untouched;
+    /* COMPLETARDO*/
+    } else if (k_status == 1) {
+        cell.status = hit;
+    } else {
+        fprintf(stderr, "Invalid cell status: %d\n", k_status);
+        exit(EXIT_FAILURE);
     }
-    /*
-     * COMPLETAR
-     *
-     */
+    cell.round = round;
     return cell;
 }
 
