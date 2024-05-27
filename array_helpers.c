@@ -72,6 +72,7 @@ void array_dump(Board board) {
 unsigned int get_points(Board board, player_t player, unsigned int round) {
     unsigned int points=0u;
     /*COMPLETAR*/
+    player_t target_player = (player == player1) ? player2 : player1;
     for(unsigned int row =0u; row < ROWS; ++row){
         for (unsigned int col = 0u; col < COLUMNS; ++col){
             cell_t cell = board[row][col][player];
