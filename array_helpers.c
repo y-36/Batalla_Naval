@@ -70,13 +70,12 @@ void array_dump(Board board) {
 }
 
 unsigned int get_points(Board board, player_t player, unsigned int round) {
-    unsigned int points=0u;
-    /*COMPLETAR*/
-    player_t target_player = (player == player1) ? player2 : player1;
-    for(unsigned int row =0u; row < ROWS; ++row){
-        for (unsigned int col = 0u; col < COLUMNS; ++col){
+    unsigned int points = 0u;
+    
+    for (unsigned int row = 0u; row < ROWS; ++row) {
+        for (unsigned int col = 0u; col < COLUMNS; ++col) {
             cell_t cell = board[row][col][player];
-            if(cell.content == ship && cell.status == hit && cell.round <= round){
+            if (cell.content == 1 && cell.status == 1 && cell.round <= round) {
                 points += 100;
             }
         }
