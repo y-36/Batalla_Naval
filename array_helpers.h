@@ -20,7 +20,7 @@
 
 
 #define MAX_COORDS (ROWS * COLUMNS)  // Inidcates how many different coordinates are
-#define MAX_ROUNDS MAX_COORDS        // The maximun round posible.
+#define MAX_ROUNDS MAX_COORDS 100    // The maximun round posible.
 
 typedef cell_t Board [ROWS][COLUMNS][PLAYERS];
 

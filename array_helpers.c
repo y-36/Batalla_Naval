@@ -36,7 +36,6 @@ static void draw_separator(void) {
 }
 
 void board_draw(Board board, player_t player, unsigned int round) {
-    assert(player < PLAYERS);
     printf(ANSI_PLAYER
            "Player %d:\n"
            "=========\n\n", player + FST_PLAYER);
@@ -58,7 +57,7 @@ void board_draw(Board board, player_t player, unsigned int round) {
 void array_dump(Board board) {
     for (unsigned int row = 0u; row < ROWS ; ++row) {
         for (unsigned int col = 0u; col < COLUMNS; ++col) {
-            for (player_t player=player1; player < PLAYERS; ++player) {
+            for (unsigned int player=player1; player < PLAYERS; ++player) {
                 printf("(%c, %2u) player%d: ", row + FST_ROW, 
                                                col + FST_COLUMN,
                                                player + FST_PLAYER);
@@ -72,16 +71,21 @@ void array_dump(Board board) {
 
 unsigned int get_points(Board board, player_t player, unsigned int round) {
     unsigned int points=0u;
-    /*
-     * COMPLETAR
-     *
-     **/
+    /*COMPLETAR*/
+    for(unsigned int row =0u; row < ROWS; ++row){
+        for (unsigned int col = 0u; col < COLUMNS; ++col){
+            cell_t cell = board[row][col][player];
+            if(cell.content == ship && cell.status == hit && cell.round <= round){
+                points += 100;
+            }
+        }
+    }
     return points;
 }
 
-static unsigned int max(unsigned int x, unsigned int y) {
-    return x >= y ? x: y;
-}
+//static unsigned int max(unsigned int x, unsigned int y) {
+//    return x >= y ? x: y;
+//}
 
 unsigned int array_from_file(Board board, const char *filepath) {
     FILE *file = NULL;
@@ -92,48 +96,45 @@ unsigned int array_from_file(Board board, const char *filepath) {
         exit(EXIT_FAILURE);
     }
 
-    char s_row = 0;  // To store the readed symbol for row, 'A', 'B', ...
+    char s_row;  // To store the readed symbol for row, 'A', 'B', ...
     unsigned int k_column = 0u;  // To store readed unsigned integer for column
     unsigned int check_filelines=0u; 
     unsigned int max_round=0u;  // Maximun round encountered
-    while (/* COMPLETAR */) {
-        int res = fscanf(/*COMPLETAR*/);
+    while (!feof(file) && max_round < MAX_COORDS) {
+        int res = fscanf(file," (%c, %u)",&s_row, &k_column);
+        if (res == EOF){
+            return 1;
+        }
         if (res != 2) {
             fprintf(stderr, "Error reading coordinates at line %u.\n", 
                     check_filelines + 1);
             exit(EXIT_FAILURE);
         }
-        unsigned int row;
-        unsigned int column;
+        unsigned int row = s_row - FST_ROW;;
+        unsigned int column = k_column - FST_COLUMN;
         // Read data for first player cell
-        cell_t player1_cell;
-        /*
-         * COMPLETAR: 
-         *
-         **/
+        cell_t player1_cell = cell_from_file(file);
+        /* COMPLETARDO */        
         // Read data for second player cell
-        cell_t player2_cell;
-        /*
-         *  COMPLETAR
-         *
-         * */
+        cell_t player2_cell = cell_from_file(file);
+        /* COMPLETARDO */        
         // Store data of both players in array
-        /*
-         * COMPLETAR
-         *
-         */
+        board[row][column][player1] = player1_cell;
+        board[row][column][player2] = player2_cell;
+        /* COMPLETARDO */        
+
         // Update maximun round
-        /*
-         * COMPLETAR
-         *
-         */
+        /* COMPLETARDO */        
+        if (player1_cell.round > max_round) {
+            max_round = player1_cell.round;
+        }
+        if (player2_cell.round > max_round) {
+            max_round = player2_cell.round;
+        }        
         // Count readed lines
         check_filelines++;
     }
-    /*
-     * COMPLETAR
-     *
-     */
+    /* COMPLETARDO */  
     fclose(file);
     return max_round;
 }

@@ -114,11 +114,12 @@ int main(int argc, char *argv[]) {
         array_dump(battleship_board);
     }
     /* Show players points */
-    /*
-     * EJ2: COMPLETAR
-     *
-     */
+    unsigned int points_player1 = get_points(battleship_board, player1,max_round);
+    unsigned int points_player2 = get_points(battleship_board, player2,max_round);
 
+    /*EJ2: COMPLETARDI*/
+    printf("Puntos player1: %u\n", points_player1);
+    printf("Puntos player2: %u\n", points_player2);
     return (EXIT_SUCCESS);
 }
 
