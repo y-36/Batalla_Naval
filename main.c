@@ -114,8 +114,8 @@ int main(int argc, char *argv[]) {
         array_dump(battleship_board);
     }
     /* Show players points */
-    unsigned int points_player1 = get_points(battleship_board, player1,max_round);
-    unsigned int points_player2 = get_points(battleship_board, player2,max_round);
+    unsigned int points_player1 = get_points(battleship_board, player1,10u);
+    unsigned int points_player2 = get_points(battleship_board, player2,10u);
 
     /*EJ2: COMPLETARDI*/
     printf("Puntos player1: %u\n", points_player1);
